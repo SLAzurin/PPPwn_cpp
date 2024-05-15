@@ -36,26 +36,24 @@ This project depends on [pcap](https://github.com/the-tcpdump-group/libpcap), cm
 You can also add cmake option `-DUSE_SYSTEM_PCAP=OFF` to compile pcap from source (can be used when cross-compiling).
 
 ```shell
-# native build (macOS, Linux)
+# native build
 cmake -B build
-cmake --build build -t pppwn
+cmake --build build -t pppwn -- -j$(nproc)
 
 # cross compile for mipsel linux (soft float)
-cmake -B build -DZIG_TARGET=mipsel-linux-musl -DUSE_SYSTEM_PCAP=OFF -DZIG_COMPILE_OPTION="-msoft-float"
-cmake --build build -t pppwn
+cmake -B build_linux_mipsel -DZIG_TARGET=mipsel-linux-musl -DUSE_SYSTEM_PCAP=OFF -DZIG_COMPILE_OPTION="-msoft-float"
+cmake --build build_linux_mipsel -t pppwn -- -j$(nproc)
 
 # cross compile for arm linux (armv7 cortex-a7)
-cmake -B build -DZIG_TARGET=arm-linux-musleabi -DUSE_SYSTEM_PCAP=OFF -DZIG_COMPILE_OPTION="-mcpu=cortex_a7"
-cmake --build build -t pppwn
+cmake -B build_linux_armv6 -DZIG_TARGET=arm-linux-musleabi -DUSE_SYSTEM_PCAP=OFF -DZIG_COMPILE_OPTION="-mcpu=cortex_a7"
+cmake --build build_linux_armv6 -t pppwn -- -j$(nproc)
 
 # cross compile for Windows
 # https://npcap.com/dist/npcap-sdk-1.13.zip
-cmake -B build -DZIG_TARGET=x86_64-windows-gnu -DUSE_SYSTEM_PCAP=OFF -DPacket_ROOT=<path to npcap sdk>
-cmake --build build -t pppwn
+cmake -B build_windows_x64 -DZIG_TARGET=x86_64-windows-gnu -DUSE_SYSTEM_PCAP=OFF -DPacket_ROOT=<path to npcap sdk>
+cmake --build build_windows_x64 -t pppwn -- -j$(nproc)
 ```
 
 # Credits
 
 Big thanks to FloW's magical work, you are my hero.
-
-
